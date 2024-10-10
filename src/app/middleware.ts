@@ -1,28 +1,16 @@
-import { appConfig } from "@/config";
-import createMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+ 
+import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req: NextRequest) {
-  const reqHeaders = new Headers(req.headers);
-  reqHeaders.set('x-request-url', req.url);
+  // Create a new response with updated headers
+  const response = NextResponse.next();
+  const apikey = req.headers.get("x-api-key");
+  if(apikey !== process.env.NEXT_API_KEY) new NextResponse('Access Denied', { status: 403 });
+  response.headers.set('x-request-url', req.url);
 
-  // Create a new request with updated headers
-  const modifiedRequest = new NextRequest(req.url, {
-    headers: reqHeaders,
-    method: req.method,
-    body: req.body
-  });
-  const intlMiddleware = createMiddleware({
-    locales: appConfig.i18n.locales,
-    defaultLocale: appConfig.i18n.defaultLocale,
-    localePrefix: "as-needed",
-    localeDetection: true,
-    alternateLinks: true
-  });
-
-  return intlMiddleware(modifiedRequest);
+  return response;
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/"],
 };
