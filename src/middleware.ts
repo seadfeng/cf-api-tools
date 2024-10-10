@@ -1,5 +1,4 @@
 
-import { getRequestContext } from "@cloudflare/next-on-pages";
 import { NextRequest, NextResponse } from "next/server";
 
 export default async function middleware(req: NextRequest) {
@@ -8,12 +7,8 @@ export default async function middleware(req: NextRequest) {
   const apikey = req.headers.get("x-api-key");
 
   // Access the environment variable
-  let expectedApiKey = process.env.NEXT_API_KEY;
+  let expectedApiKey = process.env.NEXT_API_KEY || process.env.CF_PAGES_API_KEY;
   console.log("process.env", process.env);
-  if (!expectedApiKey) {
-    const { env } = getRequestContext();
-    expectedApiKey = env.NEXT_API_KEY;
-  }
 
   console.log("expectedApiKey", expectedApiKey);
   if (apikey !== expectedApiKey) return new NextResponse('Access Denied', { status: 403 });
