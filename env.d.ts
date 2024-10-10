@@ -3,6 +3,3 @@
 
 interface CloudflareEnv {
 }
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
