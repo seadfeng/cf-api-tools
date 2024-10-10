@@ -8,9 +8,6 @@ export default async function middleware(req: NextRequest) {
 
   // Access the environment variable
   let expectedApiKey = process.env.NEXT_API_KEY || process.env.CF_PAGES_API_KEY;
-  console.log("process.env", process.env);
-
-  console.log("expectedApiKey", expectedApiKey);
   if (apikey !== expectedApiKey) return new NextResponse('Access Denied', { status: 403 });
   response.headers.set('x-request-url', req.url);
 
