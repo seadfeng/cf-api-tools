@@ -9,7 +9,7 @@ export default async function middleware(req: NextRequest) {
 
   // Access the environment variable
   let expectedApiKey = process.env.NEXT_API_KEY;
-
+  console.log("process.env", process.env);
   if (!expectedApiKey) {
     const { env } = getRequestContext();
     expectedApiKey = env.NEXT_API_KEY;
