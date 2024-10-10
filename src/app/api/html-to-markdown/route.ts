@@ -3,7 +3,7 @@ import showdown from 'showdown';
 export const runtime = 'edge';
 
 /**
- * Markdown to HTML with showdown 
+ * HTML to Markdown with showdown 
  * 
  * @returns 
  */
