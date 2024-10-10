@@ -6,7 +6,9 @@ export default async function middleware(req: NextRequest) {
   const response = NextResponse.next();
   const apikey = req.headers.get("x-api-key");
 
-  if (apikey !== process.env.NEXT_API_KEY) return new NextResponse('Access Denied', { status: 403 });
+  // Access the environment variable
+  const expectedApiKey = process.env.NEXT_API_KEY || import.meta.env.NEXT_API_KEY;
+  if (apikey !== expectedApiKey) return new NextResponse('Access Denied', { status: 403 });
   response.headers.set('x-request-url', req.url);
 
   return response;
